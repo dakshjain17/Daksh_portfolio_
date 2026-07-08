@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daksh Jain — Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0E14;
+    --bg-raised:#11151F;
+    --line:#232838;
+    --text:#E8E6E1;
+    --text-dim:#8B93A7;
+    --blue:#5B8DEF;
+    --amber:#F2A65A;
+    --teal:#3E7C7C;
+    --radius:10px;
+    --display:'Space Grotesk',sans-serif;
+    --body:'IBM Plex Sans',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--blue); color:#0B0E14; }
+
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+
+  /* ---- Nav ---- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    backdrop-filter:blur(10px);
+    background:rgba(11,14,20,0.75);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .logo{
+    font-family:var(--mono); font-weight:500; font-size:0.95rem; letter-spacing:0.02em;
+    color:var(--text);
+  }
+  .logo span{ color:var(--blue); }
+  .nav-links{ display:flex; gap:32px; list-style:none; }
+  .nav-links a{
+    font-family:var(--mono); font-size:0.82rem; color:var(--text-dim);
+    letter-spacing:0.03em; text-transform:lowercase;
+    transition:color 0.2s;
+    position:relative;
+  }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-links a::before{ content:"./ "; color:var(--blue); opacity:0; transition:opacity 0.2s; }
+  .nav-links a:hover::before{ opacity:1; }
+  .nav-cta{
+    font-family:var(--mono); font-size:0.8rem; padding:8px 16px;
+    border:1px solid var(--blue); border-radius:6px; color:var(--blue);
+    transition:all 0.2s;
+  }
+  .nav-cta:hover{ background:var(--blue); color:#0B0E14; }
+  .burger{ display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; }
+  .burger span{ width:22px; height:2px; background:var(--text); display:block; }
+
+  /* ---- Hero ---- */
+  .hero{
+    min-height:100vh; display:flex; align-items:center;
+    padding-top:64px; position:relative;
+  }
+  .hero .wrap{
+    display:grid; grid-template-columns:1.05fr 0.95fr; gap:24px; align-items:center;
+    width:100%;
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:0.8rem; color:var(--amber);
+    letter-spacing:0.08em; text-transform:uppercase; margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:""; width:8px; height:8px; border-radius:50%;
+    background:var(--amber); display:inline-block;
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+  h1{
+    font-family:var(--display); font-weight:700;
+    font-size:clamp(2.6rem, 5.2vw, 4.4rem);
+    line-height:1.05; letter-spacing:-0.02em; margin-bottom:20px;
+  }
+  h1 .accent{ color:var(--blue); }
+  .hero-sub{
+    font-size:1.08rem; color:var(--text-dim); max-width:480px; margin-bottom:32px;
+  }
+  .hero-sub b{ color:var(--text); font-weight:500; }
+  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px; }
+  .btn{
+    font-family:var(--mono); font-size:0.85rem; padding:13px 24px;
+    border-radius:6px; display:inline-flex; align-items:center; gap:8px;
+    transition:all 0.2s; border:1px solid transparent;
+  }
+  .btn-primary{ background:var(--blue); color:#0B0E14; font-weight:500; }
+  .btn-primary:hover{ background:#4a7bdb; transform:translateY(-2px); }
+  .btn-ghost{ border-color:var(--line); color:var(--text); }
+  .btn-ghost:hover{ border-color:var(--text-dim); transform:translateY(-2px); }
+
+  .hero-meta{
+    display:flex; gap:24px; flex-wrap:wrap;
+    font-family:var(--mono); font-size:0.78rem; color:var(--text-dim);
+  }
+  .hero-meta a{ transition:color 0.2s; }
+  .hero-meta a:hover{ color:var(--blue); }
+
+  .hero-canvas-wrap{
+    position:relative; height:520px;
+  }
+  #hero-canvas{ width:100%; height:100%; display:block; cursor:grab; }
+  #hero-canvas:active{ cursor:grabbing; }
+  .canvas-hint{
+    position:absolute; bottom:8px; left:50%; transform:translateX(-50%);
+    font-family:var(--mono); font-size:0.7rem; color:var(--text-dim);
+    letter-spacing:0.05em; opacity:0.6; text-align:center; width:100%;
+  }
+
+  /* ---- Section shared ---- */
+  section{ padding:100px 0; border-top:1px solid var(--line); }
+  .section-head{ margin-bottom:48px; }
+  .section-num{
+    font-family:var(--mono); font-size:0.78rem; color:var(--blue); margin-bottom:10px; display:block;
+  }
+  h2{
+    font-family:var(--display); font-weight:600; font-size:clamp(1.7rem,3vw,2.4rem);
+    letter-spacing:-0.01em;
+  }
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---- About ---- */
+  .about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
+  .about-text p{ color:var(--text-dim); font-size:1.02rem; margin-bottom:16px; }
+  .about-text b{ color:var(--text); font-weight:500; }
+  .stat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .stat{
+    background:var(--bg-raised); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px;
+  }
+  .stat-num{ font-family:var(--display); font-size:2.1rem; font-weight:700; color:var(--blue); }
+  .stat-label{ font-family:var(--mono); font-size:0.78rem; color:var(--text-dim); margin-top:4px; }
+
+  /* ---- Skills ---- */
+  .skill-cols{ display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
+  .skill-col-title{
+    font-family:var(--mono); font-size:0.78rem; color:var(--amber);
+    text-transform:uppercase; letter-spacing:0.06em; margin-bottom:16px;
+  }
+  .tag-list{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tag{
+    font-family:var(--mono); font-size:0.8rem; padding:7px 12px;
+    background:var(--bg-raised); border:1px solid var(--line); border-radius:6px;
+    color:var(--text); transition:border-color 0.2s, color 0.2s;
+  }
+  .tag:hover{ border-color:var(--blue); color:var(--blue); }
+
+  /* ---- Projects ---- */
+  .project-list{ display:flex; flex-direction:column; gap:1px; background:var(--line); border-radius:var(--radius); overflow:hidden; }
+  .project{
+    background:var(--bg); padding:36px; display:grid; grid-template-columns:auto 1fr; gap:28px;
+    transition:background 0.25s;
+  }
+  .project:hover{ background:var(--bg-raised); }
+  .project-index{ font-family:var(--mono); font-size:0.85rem; color:var(--text-dim); padding-top:4px; }
+  .project-title{ font-family:var(--display); font-size:1.4rem; font-weight:600; margin-bottom:10px; }
+  .project-desc{ color:var(--text-dim); margin-bottom:16px; max-width:640px; }
+  .project-desc li{ margin-left:18px; margin-bottom:4px; }
+  .project-tags{ display:flex; flex-wrap:wrap; gap:8px; }
+  .project-tag{
+    font-family:var(--mono); font-size:0.72rem; padding:4px 10px;
+    background:transparent; border:1px solid var(--teal); color:var(--teal); border-radius:20px;
+  }
+
+  /* ---- Education / Timeline ---- */
+  .timeline{ position:relative; padding-left:32px; }
+  .timeline::before{
+    content:""; position:absolute; left:5px; top:6px; bottom:6px; width:1px; background:var(--line);
+  }
+  .tl-item{ position:relative; padding-bottom:44px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-dot{
+    position:absolute; left:-32px; top:4px; width:11px; height:11px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--blue);
+  }
+  .tl-date{ font-family:var(--mono); font-size:0.76rem; color:var(--amber); margin-bottom:6px; }
+  .tl-title{ font-family:var(--display); font-size:1.2rem; font-weight:600; margin-bottom:4px; }
+  .tl-sub{ color:var(--text-dim); font-size:0.92rem; }
+
+  /* ---- Certifications ---- */
+  .cert-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .cert{
+    background:var(--bg-raised); border:1px solid var(--line); border-radius:var(--radius);
+    padding:28px; transition:border-color 0.2s, transform 0.2s;
+  }
+  .cert:hover{ border-color:var(--blue); transform:translateY(-3px); }
+  .cert-title{ font-family:var(--display); font-weight:600; font-size:1.1rem; margin-bottom:8px; }
+  .cert-issuer{ font-family:var(--mono); font-size:0.76rem; color:var(--amber); margin-bottom:12px; display:block; }
+  .cert-desc{ color:var(--text-dim); font-size:0.92rem; }
+
+  /* ---- Contact / Footer ---- */
+  #contact{ text-align:center; }
+  .contact-title{ font-family:var(--display); font-size:clamp(2rem,5vw,3.2rem); font-weight:700; margin-bottom:20px; }
+  .contact-sub{ color:var(--text-dim); max-width:480px; margin:0 auto 36px; }
+  .contact-links{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:60px; }
+  footer{ padding:32px 0; border-top:1px solid var(--line); }
+  footer .wrap{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+  footer p{ font-family:var(--mono); font-size:0.76rem; color:var(--text-dim); }
+
+  @media (max-width:900px){
+    .nav-links, .nav-cta{ display:none; }
+    .burger{ display:flex; }
+    .hero .wrap{ grid-template-columns:1fr; }
+    .hero-canvas-wrap{ height:340px; order:-1; }
+    .about-grid{ grid-template-columns:1fr; gap:36px; }
+    .skill-cols{ grid-template-columns:1fr; gap:24px; }
+    .project{ grid-template-columns:1fr; }
+    .cert-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo">daksh<span>.</span>jain</div>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#education">education</a></li>
+      <li><a href="#certifications">certs</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Contact</a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Open to Software Developer roles</div>
+      <h1>Daksh Jain builds <span class="accent">full-stack</span> web apps that actually ship.</h1>
+      <p class="hero-sub">MCA student and aspiring <b>Software Engineer</b> working across <b>Python, Django, Flask, SQL</b> and <b>React</b> — turning real-world problems into scalable applications.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#projects">View Projects →</a>
+        <a class="btn btn-ghost" href="mailto:jaindaksh390@gmail.com" target="_top">Get in Touch</a>
+      </div>
+      <div class="hero-meta">
+        <a href="mailto:jaindaksh390@gmail.com" target="_top">jaindaksh390@gmail.com</a>
+        <a href="tel:8955682369" target="_top">8955682369</a>
+        <span>Noida, Uttar Pradesh</span>
+      </div>
+    </div>
+    <div class="hero-canvas-wrap">
+      <canvas id="hero-canvas"></canvas>
+      <div class="canvas-hint">drag to rotate the stack</div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">01 / About</span>
+      <h2>Grounded in fundamentals, curious about everything else.</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm currently pursuing my <b>Master of Computer Application at Galgotias University</b>, building on a Bachelor's in Computer Application. Along the way I've picked up a working fluency in <b>Python, Django, Flask, SQL, HTML, CSS, JavaScript and React</b>.</p>
+        <p>I like projects that solve a real, specific problem — a fee management system for a school, a medicine search tool, an expense tracker — rather than tutorials for their own sake. I'm looking for an entry-level <b>Software Developer or Python Developer</b> role where I can keep building things that matter.</p>
+      </div>
+      <div class="stat-grid reveal">
+        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Full-stack projects shipped</div></div>
+        <div class="stat"><div class="stat-num">2</div><div class="stat-label">Professional certifications</div></div>
+        <div class="stat"><div class="stat-num">8+</div><div class="stat-label">Languages &amp; frameworks</div></div>
+        <div class="stat"><div class="stat-num">2026</div><div class="stat-label">MCA graduation</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">02 / Skills</span>
+      <h2>The stack I reach for.</h2>
+    </div>
+    <div class="skill-cols reveal">
+      <div>
+        <div class="skill-col-title">Languages &amp; Frameworks</div>
+        <div class="tag-list">
+          <span class="tag">Python</span><span class="tag">C</span>
+          <span class="tag">Django</span><span class="tag">Flask</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-col-title">Web &amp; Data</div>
+        <div class="tag-list">
+          <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
+          <span class="tag">React (Basic)</span><span class="tag">Node.js (Basic)</span>
+          <span class="tag">Bootstrap</span><span class="tag">MySQL</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-col-title">AI Tools &amp; Soft Skills</div>
+        <div class="tag-list">
+          <span class="tag">ChatGPT</span><span class="tag">Claude</span><span class="tag">Perplexity AI</span>
+          <span class="tag">Communication</span><span class="tag">Teamwork</span><span class="tag">Problem Solving</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">03 / Projects</span>
+      <h2>Things I've built end to end.</h2>
+    </div>
+    <div class="project-list reveal">
+      <div class="project">
+        <div class="project-index">01</div>
+        <div>
+          <div class="project-title">Student Fee Management System</div>
+          <ul class="project-desc">
+            <li>Full-stack web application for schools to manage fee collection and student records.</li>
+            <li>Login authentication, fee collection and record-keeping built on Django.</li>
+            <li>Lets staff manage and update student information efficiently.</li>
+          </ul>
+          <div class="project-tags">
+            <span class="project-tag">Python</span><span class="project-tag">Django</span><span class="project-tag">SQL</span>
+          </div>
+        </div>
+      </div>
+      <div class="project">
+        <div class="project-index">02</div>
+        <div>
+          <div class="project-title">Medicine Finder</div>
+          <ul class="project-desc">
+            <li>Web app for quickly searching medicines, built with Flask and SQL.</li>
+            <li>User authentication and structured data management.</li>
+            <li>Optimized for fast, low-friction search.</li>
+          </ul>
+          <div class="project-tags">
+            <span class="project-tag">Python</span><span class="project-tag">Flask</span><span class="project-tag">SQL</span><span class="project-tag">HTML/CSS</span>
+          </div>
+        </div>
+      </div>
+      <div class="project">
+        <div class="project-index">03</div>
+        <div>
+          <div class="project-title">ExpendEx Tracker</div>
+          <ul class="project-desc">
+            <li>Responsive expense tracker with authentication and an interactive dashboard.</li>
+            <li>Visualizes income, expenses and net worth at a glance.</li>
+            <li>Category-wise analytics with transaction filtering.</li>
+          </ul>
+          <div class="project-tags">
+            <span class="project-tag">Next.js</span><span class="project-tag">React</span><span class="project-tag">Tailwind CSS</span><span class="project-tag">Redux</span><span class="project-tag">Firebase/Supabase</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">04 / Education</span>
+      <h2>The path so far.</h2>
+    </div>
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Sept 2024 — July 2026</div>
+        <div class="tl-title">Master of Computer Application</div>
+        <div class="tl-sub">Galgotias University · Coursework: AI &amp; ML, Python, Java</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">May 2020 — May 2023</div>
+        <div class="tl-title">Bachelor of Computer Application</div>
+        <div class="tl-sub">Modi Institute Of Management and Technology · Coursework: Java, Web Design, C</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">April 2019 — May 2020</div>
+        <div class="tl-title">Senior Secondary (12th) — Commerce</div>
+        <div class="tl-sub">Bal Vidhyalaya, CBSE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">05 / Certifications</span>
+      <h2>Credentials that back it up.</h2>
+    </div>
+    <div class="cert-grid reveal">
+      <div class="cert">
+        <div class="cert-title">Python Full Stack Certificate</div>
+        <span class="cert-issuer">VGT Technologies Kota</span>
+        <p class="cert-desc">Comprehensive training in Python, Django, HTML, CSS, JavaScript, SQL and full-stack web application development.</p>
+      </div>
+      <div class="cert">
+        <div class="cert-title">Cisco Certified Network Associate (CCNA)</div>
+        <span class="cert-issuer">Cisco</span>
+        <p class="cert-desc">Networking fundamentals, IP connectivity, routing &amp; switching, network security and troubleshooting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow" style="justify-content:center;">Let's build something</div>
+      <div class="contact-title">Have a role in mind?</div>
+      <p class="contact-sub">I'm actively looking for entry-level Software Developer or Python Developer opportunities. Reach out — I reply fast.</p>
+      <div class="contact-links">
+        <a class="btn btn-primary" href="mailto:jaindaksh390@gmail.com" target="_top">jaindaksh390@gmail.com</a>
+        <a class="btn btn-ghost" href="tel:8955682369" target="_top">+91 89556 82369</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 Daksh Jain — built with HTML, CSS &amp; three.js</p>
+    <p>Noida, Uttar Pradesh, India</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+  // ---------- In-page anchor navigation (avoid iframe top-navigation issues) ----------
+  document.querySelectorAll('a[href^="#"]').forEach(link=>{
+    link.addEventListener('click', function(e){
+      const href = this.getAttribute('href');
+      if(href.length > 1){
+        const target = document.querySelector(href);
+        if(target){
+          e.preventDefault();
+          target.scrollIntoView({ behavior:'smooth', block:'start' });
+          if(navLinks.style.display === 'flex'){ navLinks.style.display = 'none'; }
+        }
+      }
+    });
+  });
+
+  // ---------- Scroll reveal ----------
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:0.15 });
+  revealEls.forEach(el=>io.observe(el));
+
+  // ---------- Mobile nav ----------
+  const burger = document.getElementById('burger');
+  const navLinks = document.querySelector('.nav-links');
+  burger.addEventListener('click', ()=>{
+    navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+    navLinks.style.cssText += 'position:fixed; top:64px; left:0; right:0; flex-direction:column; background:#0B0E14; padding:24px 32px; border-bottom:1px solid #232838; gap:18px;';
+  });
+
+  // ---------- 3D Skill Constellation ----------
+  const canvas = document.getElementById('hero-canvas');
+  const wrap = document.querySelector('.hero-canvas-wrap');
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, wrap.clientWidth / wrap.clientHeight, 0.1, 1000);
+  camera.position.set(0, 0, 13);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+
+  const group = new THREE.Group();
+  scene.add(group);
+
+  const skillData = [
+    { label:'Python', color:0x5B8DEF },
+    { label:'Django', color:0x3E7C7C },
+    { label:'Flask', color:0x3E7C7C },
+    { label:'SQL', color:0xF2A65A },
+    { label:'React', color:0x5B8DEF },
+    { label:'JS', color:0xF2A65A },
+    { label:'HTML/CSS', color:0x8B93A7 },
+    { label:'Django II', color:0x3E7C7C }
+  ];
+
+  // Core sphere
+  const coreGeo = new THREE.IcosahedronGeometry(1.35, 1);
+  const coreMat = new THREE.MeshBasicMaterial({ color:0xE8E6E1, wireframe:true, transparent:true, opacity:0.5 });
+  const core = new THREE.Mesh(coreGeo, coreMat);
+  group.add(core);
+
+  const coreFillGeo = new THREE.IcosahedronGeometry(1.3, 1);
+  const coreFillMat = new THREE.MeshBasicMaterial({ color:0x5B8DEF, transparent:true, opacity:0.08 });
+  group.add(new THREE.Mesh(coreFillGeo, coreFillMat));
+
+  // Orbiting nodes on a sphere distribution (fibonacci sphere)
+  const nodeRadius = 4.6;
+  const nodes = [];
+  const n = skillData.length;
+  for(let i=0;i<n;i++){
+    const y = 1 - (i / (n - 1)) * 2;
+    const radiusAtY = Math.sqrt(1 - y*y);
+    const theta = Math.PI * (3 - Math.sqrt(5)) * i;
+    const x = Math.cos(theta) * radiusAtY;
+    const z = Math.sin(theta) * radiusAtY;
+    const pos = new THREE.Vector3(x, y, z).multiplyScalar(nodeRadius);
+
+    const nodeGeo = new THREE.SphereGeometry(0.16, 16, 16);
+    const nodeMat = new THREE.MeshBasicMaterial({ color: skillData[i].color });
+    const nodeMesh = new THREE.Mesh(nodeGeo, nodeMat);
+    nodeMesh.position.copy(pos);
+    group.add(nodeMesh);
+    nodes.push(nodeMesh);
+
+    // line from core to node
+    const lineGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), pos]);
+    const lineMat = new THREE.LineBasicMaterial({ color: skillData[i].color, transparent:true, opacity:0.35 });
+    group.add(new THREE.Line(lineGeo, lineMat));
+  }
+
+  // faint outer web connecting neighboring nodes
+  for(let i=0;i<nodes.length;i++){
+    const a = nodes[i].position;
+    const b = nodes[(i+1)%nodes.length].position;
+    const lineGeo = new THREE.BufferGeometry().setFromPoints([a,b]);
+    const lineMat = new THREE.LineBasicMaterial({ color:0x232838, transparent:true, opacity:0.6 });
+    group.add(new THREE.Line(lineGeo, lineMat));
+  }
+
+  // Scattered background points
+  const starGeo = new THREE.BufferGeometry();
+  const starCount = 200;
+  const starPos = new Float32Array(starCount * 3);
+  for(let i=0;i<starCount;i++){
+    starPos[i*3] = (Math.random()-0.5)*40;
+    starPos[i*3+1] = (Math.random()-0.5)*40;
+    starPos[i*3+2] = (Math.random()-0.5)*40 - 10;
+  }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  const starMat = new THREE.PointsMaterial({ color:0x8B93A7, size:0.05, transparent:true, opacity:0.5 });
+  scene.add(new THREE.Points(starGeo, starMat));
+
+  // Interaction: drag to rotate, auto-rotate when idle
+  let isDragging = false;
+  let prevX = 0, prevY = 0;
+  let velX = 0.0025, velY = 0.0012;
+  let targetVelX = velX, targetVelY = velY;
+
+  function pointerDown(x,y){ isDragging = true; prevX = x; prevY = y; targetVelX = 0; targetVelY = 0; }
+  function pointerMove(x,y){
+    if(!isDragging) return;
+    const dx = x - prevX, dy = y - prevY;
+    group.rotation.y += dx * 0.005;
+    group.rotation.x += dy * 0.005;
+    prevX = x; prevY = y;
+  }
+  function pointerUp(){ isDragging = false; targetVelX = 0.0025; targetVelY = 0.0012; }
+
+  canvas.addEventListener('mousedown', e=>pointerDown(e.clientX, e.clientY));
+  window.addEventListener('mousemove', e=>pointerMove(e.clientX, e.clientY));
+  window.addEventListener('mouseup', pointerUp);
+  canvas.addEventListener('touchstart', e=>{ const t=e.touches[0]; pointerDown(t.clientX, t.clientY); }, {passive:true});
+  canvas.addEventListener('touchmove', e=>{ const t=e.touches[0]; pointerMove(t.clientX, t.clientY); }, {passive:true});
+  canvas.addEventListener('touchend', pointerUp);
+
+  const clock = new THREE.Clock();
+  function animate(){
+    requestAnimationFrame(animate);
+    const dt = clock.getDelta();
+
+    velX += (targetVelX - velX) * 0.05;
+    velY += (targetVelY - velY) * 0.05;
+    if(!isDragging){
+      group.rotation.y += velX;
+      group.rotation.x += velY * 0.4;
+    }
+    core.rotation.y -= 0.002;
+    core.rotation.x += 0.001;
+
+    nodes.forEach((node,i)=>{
+      node.scale.setScalar(1 + Math.sin(clock.elapsedTime*1.5 + i)*0.08);
+    });
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  function handleResize(){
+    const w = wrap.clientWidth, h = wrap.clientHeight;
+    camera.aspect = w/h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w,h);
+  }
+  window.addEventListener('resize', handleResize);
+
+  // respect reduced motion
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    targetVelX = 0; targetVelY = 0; velX = 0; velY = 0;
+  }
+</script>
+</body>
+</html>
